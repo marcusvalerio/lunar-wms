@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   LUNAR — Design Tokens (CSS layer)
+   Espelha design-system/tokens.ts. Qualquer mudança de paleta,
+   tipografia ou densidade deve ser feita nos dois lugares.
+   --------------------------------------------------------------- */
+
+:root {
+  /* Superfícies minerais */
+  --lunar-paper: #f4f2ec;
+  --lunar-stone: #e9e7e0;
+  --lunar-mist: #dfe1dd;
+
+  /* Tons estruturais */
+  --lunar-ink: #263640;
+  --lunar-navy: #19344a;
+  --lunar-steel: #496a7c;
+
+  /* Sinal */
+  --lunar-amber: #d79a3b;
+  --lunar-green: #159b82;
+  --lunar-red: #d95f5f;
+
+  --background: var(--lunar-paper);
+  --foreground: var(--lunar-ink);
+
+  --font-display: "Familjen Grotesk", ui-serif, Georgia, serif;
+  --font-ui: "Sora", ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-paper: var(--lunar-paper);
+  --color-stone: var(--lunar-stone);
+  --color-mist: var(--lunar-mist);
+  --color-ink: var(--lunar-ink);
+  --color-navy: var(--lunar-navy);
+  --color-steel: var(--lunar-steel);
+  --color-amber: var(--lunar-amber);
+  --color-green: var(--lunar-green);
+  --color-red: var(--lunar-red);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: var(--font-display);
+  --font-ui: var(--font-ui);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-ui);
+}
+
+/* Papéis tipográficos explícitos — usar via classe .type-* em vez de
+   tamanhos soltos, para manter a hierarquia consistente em todo o produto. */
+.type-display { font-family: var(--font-display); font-weight: 600; font-size: 3rem; line-height: 1.05; }
+.type-h1 { font-family: var(--font-display); font-weight: 600; font-size: 2rem; line-height: 1.1; }
+.type-h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; line-height: 1.2; }
+.type-h3 { font-family: var(--font-display); font-weight: 500; font-size: 1.125rem; line-height: 1.3; }
+.type-body { font-family: var(--font-ui); font-weight: 400; font-size: 0.9375rem; line-height: 1.5; }
+.type-body-small { font-family: var(--font-ui); font-weight: 400; font-size: 0.8125rem; line-height: 1.45; }
+.type-label { font-family: var(--font-ui); font-weight: 500; font-size: 0.75rem; line-height: 1.3; letter-spacing: 0.03em; text-transform: uppercase; }
+.type-caption { font-family: var(--font-ui); font-weight: 400; font-size: 0.6875rem; line-height: 1.3; }
+.type-metadata { font-family: var(--font-ui); font-weight: 400; font-size: 0.6875rem; line-height: 1.3; letter-spacing: 0.02em; }
+.type-data { font-family: var(--font-display); font-weight: 500; font-size: 1.25rem; line-height: 1.1; }
+.type-technical { font-family: var(--font-ui); font-weight: 400; font-size: 0.8125rem; line-height: 1.4; }
