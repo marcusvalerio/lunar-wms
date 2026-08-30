@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useExperience } from "@/experience/provider";
 import { AdminShell } from "@/components/AdminShell";
 import { LunarWorkspace } from "@/components/LunarWorkspace";
@@ -34,10 +35,24 @@ export default function Home() {
         <p className="type-h2 mt-1">{experienciaModeloMental[experiencia]}</p>
       </div>
 
-      <EmptyState
-        titulo="Nenhum módulo operacional disponível ainda"
-        descricao="Recebimento, picking, packing, expedição e os demais módulos serão construídos nas próximas fases, sobre esta fundação."
-      />
+      {shell === "admin" ? (
+        <div className="flex flex-col gap-2">
+          <p className="type-label text-steel">Fase 2 — Warehouse Core</p>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/admin/estrutura" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
+              Estrutura do armazém →
+            </Link>
+            <Link href="/admin/produtos" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
+              Produtos →
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <EmptyState
+          titulo="Nenhum módulo operacional disponível ainda"
+          descricao="Recebimento, picking, packing, expedição e os demais módulos serão construídos nas próximas fases, sobre esta fundação."
+        />
+      )}
     </div>
   );
 

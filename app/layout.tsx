@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ExperienceProvider } from "@/experience/provider";
+import { DataStoreProvider } from "@/data/store";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -7,7 +8,7 @@ export const metadata: Metadata = {
   description: "LUNAR — sistema operacional digital para o armazém.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className="h-full antialiased">
       <head>
@@ -20,7 +21,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="min-h-full flex flex-col bg-paper text-ink">
-        <ExperienceProvider>{children}</ExperienceProvider>
+        <ExperienceProvider>
+          <DataStoreProvider>{children}</DataStoreProvider>
+        </ExperienceProvider>
       </body>
     </html>
   );

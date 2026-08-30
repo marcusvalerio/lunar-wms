@@ -1,13 +1,25 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ExperienceSwitcher } from "./ExperienceSwitcher";
 
-const SECOES_ADMIN = [
-  { titulo: "Acesso", itens: ["Usuários", "Perfis", "Permissões", "Escopos"] },
-  { titulo: "Estrutura", itens: ["Ambientes", "Centros", "Armazéns", "Zonas", "Áreas", "Endereços"] },
-  { titulo: "Configuração", itens: ["Capacidades", "Regras", "Segmentos"] },
-  { titulo: "Governança", itens: ["Atividades", "Auditoria"] },
+/**
+ * Itens com `href` navegam para módulos já implementados.
+ * Itens sem `href` aparecem desabilitados — ainda não existem (anti-fake, item 96).
+ */
+const SECOES_ADMIN: { titulo: string; itens: { rotulo: string; href?: string }[] }[] = [
+  { titulo: "Acesso", itens: [{ rotulo: "Usuários" }, { rotulo: "Perfis" }, { rotulo: "Permissões" }, { rotulo: "Escopos" }] },
+  {
+    titulo: "Estrutura",
+    itens: [
+      { rotulo: "Empresas, CDs, Armazéns, Zonas, Áreas e Endereços", href: "/admin/estrutura" },
+    ],
+  },
+  { titulo: "Catálogo", itens: [{ rotulo: "Produtos", href: "/admin/produtos" }] },
+  { titulo: "Configuração", itens: [{ rotulo: "Capacidades" }, { rotulo: "Regras" }, { rotulo: "Segmentos" }] },
+  { titulo: "Governança", itens: [{ rotulo: "Atividades" }, { rotulo: "Auditoria" }] },
 ];
 
 /**
@@ -15,6 +27,8 @@ const SECOES_ADMIN = [
  * produto separado (item 56 do spec).
  */
 export function AdminShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+
   return (
     <div className="flex min-h-screen">
       <aside className="hidden w-60 flex-col border-r border-mist bg-stone px-4 py-6 md:flex">
@@ -27,11 +41,24 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <div key={secao.titulo}>
               <p className="type-label px-2 text-steel">{secao.titulo}</p>
               <ul className="mt-2 flex flex-col gap-1">
-                {secao.itens.map((item) => (
-                  <li key={item} className="type-body-small rounded-md px-2 py-1.5 text-ink hover:bg-mist">
-                    {item}
-                  </li>
-                ))}
+                {secao.itens.map((item) =>
+                  item.href ? (
+                    <li key={item.rotulo}>
+                      <Link
+                        href={item.href}
+                        className={`type-body-small block rounded-md px-2 py-1.5 hover:bg-mist ${
+                          pathname === item.href ? "bg-mist text-navy" : "text-ink"
+                        }`}
+                      >
+                        {item.rotulo}
+                      </Link>
+                    </li>
+                  ) : (
+                    <li key={item.rotulo} className="type-body-small cursor-not-allowed rounded-md px-2 py-1.5 text-steel opacity-50">
+                      {item.rotulo}
+                    </li>
+                  )
+                )}
               </ul>
             </div>
           ))}
