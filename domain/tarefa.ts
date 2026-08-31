@@ -37,6 +37,9 @@ export interface Tarefa {
   enderecoDestinoId?: string;
   /** Posição de estoque específica de origem — necessário para picking baixar o físico certo. */
   posicaoEstoqueId?: string;
+  /** Vínculo com o pedido de origem — necessário para saber quando o picking de um pedido termina. */
+  pedidoId?: string;
+  itemPedidoId?: string;
 
   operadorId?: string;
   equipamentoId?: string;

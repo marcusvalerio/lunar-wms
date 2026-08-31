@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useEstrutura, useProdutos } from "@/data/store";
 import { useEstoque } from "@/data/inventory-store";
@@ -19,7 +20,7 @@ export default function PedidosPage() {
   const { enderecos } = useEstrutura();
   const { pedidos, criarPedido, atualizarItens, cancelarPedido } = usePedidos();
   const { reservar, posicoes } = useEstoque();
-  const { criarTarefa } = useTarefas();
+  const { criarTarefa, tarefas } = useTarefas();
 
   const nomeProduto = (id: string) => produtos.find((p) => p.id === id)?.sku ?? id;
   const codigoEndereco = (id: string) => enderecos.find((e) => e.id === id)?.codigo ?? id;
@@ -57,11 +58,31 @@ export default function PedidosPage() {
           quantidade: alocacao.quantidade,
           enderecoOrigemId: posicao?.enderecoId,
           posicaoEstoqueId: alocacao.posicaoId,
+          pedidoId: pedido.id,
+          itemPedidoId: item.id,
         });
       }
     }
 
     atualizarItens(pedidoId, pedido.itens, "picking");
+  }
+
+  function pickingConcluido(pedidoId: string): boolean {
+    const tarefasDoPedido = tarefas.filter((t) => t.pedidoId === pedidoId && t.tipo === "picking");
+    return tarefasDoPedido.length > 0 && tarefasDoPedido.every((t) => t.status === "concluida");
+  }
+
+  function avancarStatus(pedidoId: string, novoStatus: "conferencia" | "packing") {
+    const pedido = pedidos.find((p) => p.id === pedidoId);
+    if (!pedido) return;
+    atualizarItens(pedidoId, pedido.itens, novoStatus);
+  }
+
+  function despachar(pedidoId: string) {
+    const pedido = pedidos.find((p) => p.id === pedidoId);
+    if (!pedido) return;
+    const itensExpedidos = pedido.itens.map((item) => ({ ...item, quantidadeExpedida: item.quantidadeAlocada }));
+    atualizarItens(pedidoId, itensExpedidos, "concluido");
   }
 
   return (
@@ -104,6 +125,20 @@ export default function PedidosPage() {
                       {pedido.status === "alocado" && (
                         <Button onClick={() => gerarTarefasDePicking(pedido.id)}>Gerar tarefas de picking</Button>
                       )}
+                      {pedido.status === "picking" && (
+                        <Button disabled={!pickingConcluido(pedido.id)} onClick={() => avancarStatus(pedido.id, "conferencia")}>
+                          {pickingConcluido(pedido.id) ? "Confirmar picking (ir para conferência)" : "Aguardando picking..."}
+                        </Button>
+                      )}
+                      {pedido.status === "conferencia" && (
+                        <Button onClick={() => avancarStatus(pedido.id, "packing")}>Iniciar packing</Button>
+                      )}
+                      {pedido.status === "packing" && (
+                        <Link href="/admin/packing" className="type-label rounded-md border border-mist px-3 py-2 hover:bg-stone">
+                          Ir para Packing →
+                        </Link>
+                      )}
+                      {pedido.status === "expedicao" && <Button onClick={() => despachar(pedido.id)}>Despachar</Button>}
                       {pedido.status !== "concluido" && pedido.status !== "cancelado" && (
                         <Button variant="secondary" onClick={() => cancelarPedido(pedido.id)}>
                           Cancelar

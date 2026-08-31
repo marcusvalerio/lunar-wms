@@ -23,7 +23,7 @@ export default function Home() {
   const conteudo = (
     <div className="flex max-w-3xl flex-col gap-8">
       <div>
-        <p className="type-label text-steel">Fase 7 — Picking</p>
+        <p className="type-label text-steel">Fase 8 — Packing + Shipping</p>
         <h1 className="type-display mt-2 text-navy">LUNAR</h1>
         <p className="type-body mt-3 text-steel">
           Fundação do produto: tokens de design, tipografia, arquitetura de
@@ -64,6 +64,9 @@ export default function Home() {
             </Link>
             <Link href="/admin/recebimento" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
               Recebimento →
+            </Link>
+            <Link href="/admin/packing" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
+              Packing →
             </Link>
           </div>
         </div>
