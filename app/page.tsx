@@ -37,7 +37,7 @@ export default function Home() {
 
       {shell === "admin" ? (
         <div className="flex flex-col gap-2">
-          <p className="type-label text-steel">Fase 4 — Order Engine</p>
+          <p className="type-label text-steel">Fase 5 — Task Engine</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/admin/estrutura" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
               Estrutura do armazém →
@@ -50,6 +50,9 @@ export default function Home() {
             </Link>
             <Link href="/admin/pedidos" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
               Pedidos →
+            </Link>
+            <Link href="/admin/tarefas" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
+              Tarefas →
             </Link>
           </div>
         </div>

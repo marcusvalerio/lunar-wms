@@ -3,6 +3,7 @@ import { ExperienceProvider } from "@/experience/provider";
 import { DataStoreProvider } from "@/data/store";
 import { InventoryStoreProvider } from "@/data/inventory-store";
 import { OrderStoreProvider } from "@/data/order-store";
+import { TaskStoreProvider } from "@/data/task-store";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -26,7 +27,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ExperienceProvider>
           <DataStoreProvider>
             <InventoryStoreProvider>
-              <OrderStoreProvider>{children}</OrderStoreProvider>
+              <OrderStoreProvider>
+                <TaskStoreProvider>{children}</TaskStoreProvider>
+              </OrderStoreProvider>
             </InventoryStoreProvider>
           </DataStoreProvider>
         </ExperienceProvider>
