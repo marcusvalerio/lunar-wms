@@ -29,6 +29,8 @@ interface RepositorioEstoque {
   registrarEntrada(dados: { produtoId: string; enderecoId: string; quantidade: number; lote?: string; validade?: string }): void;
   reservar(produtoId: string, quantidade: number, estrategia: EstrategiaAlocacao): ResultadoAlocacao;
   saldoDaPosicao(posicaoId: string): SaldoEstoque;
+  /** Confirma o picking: baixa o físico da posição e libera a reserva correspondente. */
+  confirmarPicking(posicaoId: string, quantidade: number): void;
 }
 
 const EstoqueContext = createContext<RepositorioEstoque | null>(null);
@@ -129,7 +131,39 @@ export function InventoryStoreProvider({ children }: { children: ReactNode }) {
     return resultado;
   }
 
-  const value: RepositorioEstoque = { posicoes, movimentos, reservas, registrarEntrada, reservar, saldoDaPosicao };
+  function confirmarPicking(posicaoId: string, quantidade: number) {
+    const agora = new Date().toISOString();
+    const posicao = posicoes.find((p) => p.id === posicaoId);
+    if (!posicao) return;
+
+    setPosicoes((prev) => prev.map((p) => (p.id === posicaoId ? { ...p, quantidade: Math.max(0, p.quantidade - quantidade) } : p)));
+
+    // Libera a reserva correspondente — o picking cumpre o que estava reservado.
+    setReservas((prev) =>
+      prev
+        .map((reserva) => ({
+          ...reserva,
+          alocacoes: reserva.alocacoes
+            .map((a) => (a.posicaoId === posicaoId ? { ...a, quantidade: Math.max(0, a.quantidade - quantidade) } : a))
+            .filter((a) => a.quantidade > 0),
+        }))
+        .filter((reserva) => reserva.alocacoes.length > 0)
+    );
+
+    setMovimentos((prev) => [
+      ...prev,
+      {
+        id: gerarId("mov"),
+        tipo: "picking" as const,
+        produtoId: posicao.produtoId,
+        enderecoOrigemId: posicao.enderecoId,
+        quantidade,
+        criadoEm: agora,
+      },
+    ]);
+  }
+
+  const value: RepositorioEstoque = { posicoes, movimentos, reservas, registrarEntrada, reservar, saldoDaPosicao, confirmarPicking };
 
   return <EstoqueContext.Provider value={value}>{children}</EstoqueContext.Provider>;
 }

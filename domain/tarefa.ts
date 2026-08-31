@@ -35,6 +35,8 @@ export interface Tarefa {
   quantidade?: number;
   enderecoOrigemId?: string;
   enderecoDestinoId?: string;
+  /** Posição de estoque específica de origem — necessário para picking baixar o físico certo. */
+  posicaoEstoqueId?: string;
 
   operadorId?: string;
   equipamentoId?: string;

@@ -33,6 +33,8 @@ export interface ItemPedido {
   quantidadeReservada: number;
   quantidadeAlocada: number;
   quantidadeExpedida: number;
+  /** Detalhe de quais posições de estoque atenderam este item (Fase 3 → Fase 7). */
+  alocacoes?: { posicaoId: string; quantidade: number }[];
 }
 
 export interface Pedido {

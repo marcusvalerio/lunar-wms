@@ -6,20 +6,28 @@ import { AdminShell } from "@/components/AdminShell";
 import { LunarWorkspace } from "@/components/LunarWorkspace";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
+import { OperationalPicking } from "@/components/OperationalPicking";
 import { experienciaModeloMental, experienciaLabel } from "@/experience/roles";
 
 export default function Home() {
   const { experiencia, shell } = useExperience();
 
+  if (experiencia === "operacional") {
+    return (
+      <LunarWorkspace>
+        <OperationalPicking />
+      </LunarWorkspace>
+    );
+  }
+
   const conteudo = (
     <div className="flex max-w-3xl flex-col gap-8">
       <div>
-        <p className="type-label text-steel">Fase 1 — Foundation</p>
+        <p className="type-label text-steel">Fase 7 — Picking</p>
         <h1 className="type-display mt-2 text-navy">LUNAR</h1>
         <p className="type-body mt-3 text-steel">
           Fundação do produto: tokens de design, tipografia, arquitetura de
-          domínio e o shell de experiências. Nenhum módulo operacional foi
-          implementado ainda.
+          domínio e o shell de experiências.
         </p>
       </div>
 
@@ -37,7 +45,7 @@ export default function Home() {
 
       {shell === "admin" ? (
         <div className="flex flex-col gap-2">
-          <p className="type-label text-steel">Fase 6 — Recebimento</p>
+          <p className="type-label text-steel">Módulos administrativos</p>
           <div className="flex flex-wrap gap-3">
             <Link href="/admin/estrutura" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
               Estrutura do armazém →
@@ -61,8 +69,8 @@ export default function Home() {
         </div>
       ) : (
         <EmptyState
-          titulo="Nenhum módulo operacional disponível ainda"
-          descricao="Recebimento, picking, packing, expedição e os demais módulos serão construídos nas próximas fases, sobre esta fundação."
+          titulo="Nenhum módulo disponível para esta experiência ainda"
+          descricao="Gestão, Tático e Supervisão serão construídos nas próximas fases."
         />
       )}
     </div>
@@ -70,3 +78,4 @@ export default function Home() {
 
   return shell === "admin" ? <AdminShell>{conteudo}</AdminShell> : <LunarWorkspace>{conteudo}</LunarWorkspace>;
 }
+

@@ -14,6 +14,7 @@ interface RepositorioTarefas {
     quantidade?: number;
     enderecoOrigemId?: string;
     enderecoDestinoId?: string;
+    posicaoEstoqueId?: string;
     dependeDe?: string[];
   }): string;
 
@@ -38,6 +39,7 @@ export function TaskStoreProvider({ children }: { children: ReactNode }) {
     quantidade?: number;
     enderecoOrigemId?: string;
     enderecoDestinoId?: string;
+    posicaoEstoqueId?: string;
     dependeDe?: string[];
   }): string {
     const id = gerarId("tarefa");
@@ -50,6 +52,7 @@ export function TaskStoreProvider({ children }: { children: ReactNode }) {
       quantidade: dados.quantidade,
       enderecoOrigemId: dados.enderecoOrigemId,
       enderecoDestinoId: dados.enderecoDestinoId,
+      posicaoEstoqueId: dados.posicaoEstoqueId,
       dependeDe: dados.dependeDe,
       criadaEm: new Date().toISOString(),
     };

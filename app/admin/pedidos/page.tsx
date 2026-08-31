@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useProdutos } from "@/data/store";
+import { useEstrutura, useProdutos } from "@/data/store";
 import { useEstoque } from "@/data/inventory-store";
 import { usePedidos } from "@/data/order-store";
+import { useTarefas } from "@/data/task-store";
 import { Button, TextField, SelectField } from "@/components/ui";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -15,10 +16,13 @@ const ESTRATEGIAS: EstrategiaAlocacao[] = ["FEFO", "FIFO", "LIFO"];
 
 export default function PedidosPage() {
   const { produtos } = useProdutos();
+  const { enderecos } = useEstrutura();
   const { pedidos, criarPedido, atualizarItens, cancelarPedido } = usePedidos();
-  const { reservar } = useEstoque();
+  const { reservar, posicoes } = useEstoque();
+  const { criarTarefa } = useTarefas();
 
   const nomeProduto = (id: string) => produtos.find((p) => p.id === id)?.sku ?? id;
+  const codigoEndereco = (id: string) => enderecos.find((e) => e.id === id)?.codigo ?? id;
 
   function processarReservaEAlocacao(pedidoId: string, estrategia: EstrategiaAlocacao) {
     const pedido = pedidos.find((p) => p.id === pedidoId);
@@ -31,11 +35,33 @@ export default function PedidosPage() {
         quantidadeReservada: resultado.quantidadeAtendida,
         // Nesta fase, reserva e alocação são resolvidas juntas (ver data/inventory-store.tsx)
         quantidadeAlocada: resultado.quantidadeAtendida,
+        alocacoes: resultado.alocacoes,
       };
     });
 
     const totalmenteAtendido = itensAtualizados.every((i) => i.quantidadeAlocada >= i.quantidadeSolicitada);
     atualizarItens(pedidoId, itensAtualizados, totalmenteAtendido ? "alocado" : "reservado");
+  }
+
+  function gerarTarefasDePicking(pedidoId: string) {
+    const pedido = pedidos.find((p) => p.id === pedidoId);
+    if (!pedido) return;
+
+    for (const item of pedido.itens) {
+      for (const alocacao of item.alocacoes ?? []) {
+        const posicao = posicoes.find((p) => p.id === alocacao.posicaoId);
+        criarTarefa({
+          tipo: "picking",
+          prioridade: pedido.prioridade,
+          produtoId: item.produtoId,
+          quantidade: alocacao.quantidade,
+          enderecoOrigemId: posicao?.enderecoId,
+          posicaoEstoqueId: alocacao.posicaoId,
+        });
+      }
+    }
+
+    atualizarItens(pedidoId, pedido.itens, "picking");
   }
 
   return (
@@ -75,6 +101,9 @@ export default function PedidosPage() {
                       {pedido.status === "recebido" || pedido.status === "analise" || pedido.status === "reservado" ? (
                         <AcaoReservar pedidoId={pedido.id} onProcessar={processarReservaEAlocacao} />
                       ) : null}
+                      {pedido.status === "alocado" && (
+                        <Button onClick={() => gerarTarefasDePicking(pedido.id)}>Gerar tarefas de picking</Button>
+                      )}
                       {pedido.status !== "concluido" && pedido.status !== "cancelado" && (
                         <Button variant="secondary" onClick={() => cancelarPedido(pedido.id)}>
                           Cancelar
@@ -89,6 +118,7 @@ export default function PedidosPage() {
                           <Th>Solicitado</Th>
                           <Th>Reservado</Th>
                           <Th>Alocado</Th>
+                          <Th>Endereço(s)</Th>
                         </tr>
                       </thead>
                       <tbody>
@@ -98,6 +128,9 @@ export default function PedidosPage() {
                             <Td>{item.quantidadeSolicitada}</Td>
                             <Td>{item.quantidadeReservada}</Td>
                             <Td>{item.quantidadeAlocada}</Td>
+                            <Td className="type-technical text-steel">
+                              {item.alocacoes?.map((a) => codigoEndereco(posicoes.find((p) => p.id === a.posicaoId)?.enderecoId ?? "")).join(", ") || "—"}
+                            </Td>
                           </tr>
                         ))}
                       </tbody>
