@@ -15,7 +15,7 @@ interface RepositorioTarefas {
     enderecoOrigemId?: string;
     enderecoDestinoId?: string;
     dependeDe?: string[];
-  }): void;
+  }): string;
 
   /** Uma tarefa só pode iniciar se todas as dependências estiverem concluídas. */
   podeIniciar(tarefaId: string): boolean;
@@ -39,9 +39,10 @@ export function TaskStoreProvider({ children }: { children: ReactNode }) {
     enderecoOrigemId?: string;
     enderecoDestinoId?: string;
     dependeDe?: string[];
-  }) {
+  }): string {
+    const id = gerarId("tarefa");
     const novaTarefa: Tarefa = {
-      id: gerarId("tarefa"),
+      id,
       tipo: dados.tipo,
       prioridade: dados.prioridade,
       status: "disponivel",
@@ -53,6 +54,7 @@ export function TaskStoreProvider({ children }: { children: ReactNode }) {
       criadaEm: new Date().toISOString(),
     };
     setTarefas((prev) => [...prev, novaTarefa]);
+    return id;
   }
 
   function podeIniciar(tarefaId: string): boolean {

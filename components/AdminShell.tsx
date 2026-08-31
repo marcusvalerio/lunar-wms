@@ -21,6 +21,7 @@ const SECOES_ADMIN: { titulo: string; itens: { rotulo: string; href?: string }[]
   { titulo: "Estoque", itens: [{ rotulo: "Posições, entradas e reservas", href: "/admin/estoque" }] },
   { titulo: "Pedidos", itens: [{ rotulo: "Pedidos e alocação", href: "/admin/pedidos" }] },
   { titulo: "Tarefas", itens: [{ rotulo: "Motor de tarefas", href: "/admin/tarefas" }] },
+  { titulo: "Operação", itens: [{ rotulo: "Recebimento", href: "/admin/recebimento" }] },
   { titulo: "Configuração", itens: [{ rotulo: "Capacidades" }, { rotulo: "Regras" }, { rotulo: "Segmentos" }] },
   { titulo: "Governança", itens: [{ rotulo: "Atividades" }, { rotulo: "Auditoria" }] },
 ];
