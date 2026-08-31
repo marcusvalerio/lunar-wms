@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ExperienceProvider } from "@/experience/provider";
 import { DataStoreProvider } from "@/data/store";
+import { InventoryStoreProvider } from "@/data/inventory-store";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col bg-paper text-ink">
         <ExperienceProvider>
-          <DataStoreProvider>{children}</DataStoreProvider>
+          <DataStoreProvider>
+            <InventoryStoreProvider>{children}</InventoryStoreProvider>
+          </DataStoreProvider>
         </ExperienceProvider>
       </body>
     </html>

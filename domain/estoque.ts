@@ -24,6 +24,7 @@ export interface PosicaoEstoque {
   validade?: string; // ISO date
   status: StatusEstoque;
   quantidade: number;
+  criadaEm: string; // ISO datetime — base para FIFO/LIFO
 }
 
 /** Tipos de movimento suportados pelo ledger de estoque. */

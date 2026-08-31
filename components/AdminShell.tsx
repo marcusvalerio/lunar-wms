@@ -18,6 +18,7 @@ const SECOES_ADMIN: { titulo: string; itens: { rotulo: string; href?: string }[]
     ],
   },
   { titulo: "Catálogo", itens: [{ rotulo: "Produtos", href: "/admin/produtos" }] },
+  { titulo: "Estoque", itens: [{ rotulo: "Posições, entradas e reservas", href: "/admin/estoque" }] },
   { titulo: "Configuração", itens: [{ rotulo: "Capacidades" }, { rotulo: "Regras" }, { rotulo: "Segmentos" }] },
   { titulo: "Governança", itens: [{ rotulo: "Atividades" }, { rotulo: "Auditoria" }] },
 ];
