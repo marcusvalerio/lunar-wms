@@ -31,6 +31,8 @@ interface RepositorioEstoque {
   saldoDaPosicao(posicaoId: string): SaldoEstoque;
   /** Confirma o picking: baixa o físico da posição e libera a reserva correspondente. */
   confirmarPicking(posicaoId: string, quantidade: number): void;
+  /** Ajusta o físico da posição para o valor contado/recontado, registrando o motivo no ledger. */
+  ajustarEstoque(posicaoId: string, novaQuantidade: number, motivo: string): void;
 }
 
 const EstoqueContext = createContext<RepositorioEstoque | null>(null);
@@ -163,7 +165,38 @@ export function InventoryStoreProvider({ children }: { children: ReactNode }) {
     ]);
   }
 
-  const value: RepositorioEstoque = { posicoes, movimentos, reservas, registrarEntrada, reservar, saldoDaPosicao, confirmarPicking };
+  function ajustarEstoque(posicaoId: string, novaQuantidade: number, motivo: string) {
+    const agora = new Date().toISOString();
+    const posicao = posicoes.find((p) => p.id === posicaoId);
+    if (!posicao) return;
+    const diferenca = novaQuantidade - posicao.quantidade;
+    if (diferenca === 0) return;
+
+    setPosicoes((prev) => prev.map((p) => (p.id === posicaoId ? { ...p, quantidade: novaQuantidade } : p)));
+    setMovimentos((prev) => [
+      ...prev,
+      {
+        id: gerarId("mov"),
+        tipo: "ajuste" as const,
+        produtoId: posicao.produtoId,
+        enderecoOrigemId: posicao.enderecoId,
+        quantidade: diferenca,
+        motivo,
+        criadoEm: agora,
+      },
+    ]);
+  }
+
+  const value: RepositorioEstoque = {
+    posicoes,
+    movimentos,
+    reservas,
+    registrarEntrada,
+    reservar,
+    saldoDaPosicao,
+    confirmarPicking,
+    ajustarEstoque,
+  };
 
   return <EstoqueContext.Provider value={value}>{children}</EstoqueContext.Provider>;
 }

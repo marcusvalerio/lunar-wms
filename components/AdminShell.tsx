@@ -22,6 +22,7 @@ const SECOES_ADMIN: { titulo: string; itens: { rotulo: string; href?: string }[]
   { titulo: "Pedidos", itens: [{ rotulo: "Pedidos e alocação", href: "/admin/pedidos" }] },
   { titulo: "Tarefas", itens: [{ rotulo: "Motor de tarefas", href: "/admin/tarefas" }] },
   { titulo: "Operação", itens: [{ rotulo: "Recebimento", href: "/admin/recebimento" }, { rotulo: "Packing", href: "/admin/packing" }] },
+  { titulo: "Inventário", itens: [{ rotulo: "Contagem de inventário", href: "/admin/inventario" }] },
   { titulo: "Configuração", itens: [{ rotulo: "Capacidades" }, { rotulo: "Regras" }, { rotulo: "Segmentos" }] },
   { titulo: "Governança", itens: [{ rotulo: "Atividades" }, { rotulo: "Auditoria" }] },
 ];
