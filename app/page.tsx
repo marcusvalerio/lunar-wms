@@ -7,6 +7,7 @@ import { LunarWorkspace } from "@/components/LunarWorkspace";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
 import { OperationalPicking } from "@/components/OperationalPicking";
+import { SupervisionControlTower } from "@/components/SupervisionControlTower";
 import { experienciaModeloMental, experienciaLabel } from "@/experience/roles";
 
 export default function Home() {
@@ -20,10 +21,18 @@ export default function Home() {
     );
   }
 
+  if (experiencia === "supervisao") {
+    return (
+      <LunarWorkspace>
+        <SupervisionControlTower />
+      </LunarWorkspace>
+    );
+  }
+
   const conteudo = (
     <div className="flex max-w-3xl flex-col gap-8">
       <div>
-        <p className="type-label text-steel">Fase 10 — Returns + Cross-docking</p>
+        <p className="type-label text-steel">Fase 11 — Supervisão</p>
         <h1 className="type-display mt-2 text-navy">LUNAR</h1>
         <p className="type-body mt-3 text-steel">
           Fundação do produto: tokens de design, tipografia, arquitetura de
@@ -82,7 +91,7 @@ export default function Home() {
       ) : (
         <EmptyState
           titulo="Nenhum módulo disponível para esta experiência ainda"
-          descricao="Gestão, Tático e Supervisão serão construídos nas próximas fases."
+          descricao="Gestão e Tático serão construídos nas próximas fases."
         />
       )}
     </div>
