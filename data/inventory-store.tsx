@@ -26,7 +26,7 @@ interface RepositorioEstoque {
   movimentos: MovimentoEstoque[];
   reservas: Reserva[];
 
-  registrarEntrada(dados: { produtoId: string; enderecoId: string; quantidade: number; lote?: string; validade?: string }): void;
+  registrarEntrada(dados: { produtoId: string; enderecoId: string; quantidade: number; lote?: string; validade?: string; status?: PosicaoEstoque["status"] }): string;
   reservar(produtoId: string, quantidade: number, estrategia: EstrategiaAlocacao): ResultadoAlocacao;
   saldoDaPosicao(posicaoId: string): SaldoEstoque;
   /** Confirma o picking: baixa o físico da posição e libera a reserva correspondente. */
@@ -65,15 +65,23 @@ export function InventoryStoreProvider({ children }: { children: ReactNode }) {
     };
   }
 
-  function registrarEntrada(dados: { produtoId: string; enderecoId: string; quantidade: number; lote?: string; validade?: string }) {
+  function registrarEntrada(dados: {
+    produtoId: string;
+    enderecoId: string;
+    quantidade: number;
+    lote?: string;
+    validade?: string;
+    status?: PosicaoEstoque["status"];
+  }): string {
     const agora = new Date().toISOString();
+    const id = gerarId("posicao");
     const novaPosicao: PosicaoEstoque = {
-      id: gerarId("posicao"),
+      id,
       produtoId: dados.produtoId,
       enderecoId: dados.enderecoId,
       lote: dados.lote,
       validade: dados.validade,
-      status: "disponivel",
+      status: dados.status ?? "disponivel",
       quantidade: dados.quantidade,
       criadaEm: agora,
     };
@@ -90,6 +98,7 @@ export function InventoryStoreProvider({ children }: { children: ReactNode }) {
         criadoEm: agora,
       },
     ]);
+    return id;
   }
 
   function reservar(produtoId: string, quantidade: number, estrategia: EstrategiaAlocacao): ResultadoAlocacao {

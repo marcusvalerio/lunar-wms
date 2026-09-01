@@ -7,6 +7,8 @@ import { TaskStoreProvider } from "@/data/task-store";
 import { ReceivingStoreProvider } from "@/data/receiving-store";
 import { PackingStoreProvider } from "@/data/packing-store";
 import { CountingStoreProvider } from "@/data/counting-store";
+import { ReturnsStoreProvider } from "@/data/returns-store";
+import { CrossDockingStoreProvider } from "@/data/crossdocking-store";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,7 +36,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <TaskStoreProvider>
                   <ReceivingStoreProvider>
                     <PackingStoreProvider>
-                      <CountingStoreProvider>{children}</CountingStoreProvider>
+                      <CountingStoreProvider>
+                        <ReturnsStoreProvider>
+                          <CrossDockingStoreProvider>{children}</CrossDockingStoreProvider>
+                        </ReturnsStoreProvider>
+                      </CountingStoreProvider>
                     </PackingStoreProvider>
                   </ReceivingStoreProvider>
                 </TaskStoreProvider>
