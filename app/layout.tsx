@@ -9,6 +9,7 @@ import { PackingStoreProvider } from "@/data/packing-store";
 import { CountingStoreProvider } from "@/data/counting-store";
 import { ReturnsStoreProvider } from "@/data/returns-store";
 import { CrossDockingStoreProvider } from "@/data/crossdocking-store";
+import { ConfigStoreProvider } from "@/data/config-store";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,7 +39,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <PackingStoreProvider>
                       <CountingStoreProvider>
                         <ReturnsStoreProvider>
-                          <CrossDockingStoreProvider>{children}</CrossDockingStoreProvider>
+                          <CrossDockingStoreProvider>
+                            <ConfigStoreProvider>{children}</ConfigStoreProvider>
+                          </CrossDockingStoreProvider>
                         </ReturnsStoreProvider>
                       </CountingStoreProvider>
                     </PackingStoreProvider>

@@ -10,7 +10,7 @@ import { ExperienceSwitcher } from "./ExperienceSwitcher";
  * Itens sem `href` aparecem desabilitados — ainda não existem (anti-fake, item 96).
  */
 const SECOES_ADMIN: { titulo: string; itens: { rotulo: string; href?: string }[] }[] = [
-  { titulo: "Acesso", itens: [{ rotulo: "Usuários" }, { rotulo: "Perfis" }, { rotulo: "Permissões" }, { rotulo: "Escopos" }] },
+  { titulo: "Acesso", itens: [{ rotulo: "Usuários, perfis, permissões e escopos", href: "/admin/acesso" }] },
   {
     titulo: "Estrutura",
     itens: [
@@ -30,8 +30,8 @@ const SECOES_ADMIN: { titulo: string; itens: { rotulo: string; href?: string }[]
       { rotulo: "Cross-docking", href: "/admin/cross-docking" },
     ],
   },
-  { titulo: "Configuração", itens: [{ rotulo: "Capacidades" }, { rotulo: "Regras" }, { rotulo: "Segmentos" }] },
-  { titulo: "Governança", itens: [{ rotulo: "Atividades" }, { rotulo: "Auditoria" }] },
+  { titulo: "Configuração", itens: [{ rotulo: "Estratégias e regras", href: "/admin/configuracoes" }] },
+  { titulo: "Governança", itens: [{ rotulo: "Atividades", href: "/admin/atividades" }] },
 ];
 
 /**

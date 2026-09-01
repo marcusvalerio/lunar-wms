@@ -49,7 +49,7 @@ export default function Home() {
   const conteudo = (
     <div className="flex max-w-3xl flex-col gap-8">
       <div>
-        <p className="type-label text-steel">Fase 13 — Gestão</p>
+        <p className="type-label text-steel">Fase 14 — Administração</p>
         <h1 className="type-display mt-2 text-navy">LUNAR</h1>
         <p className="type-body mt-3 text-steel">Administração — governança do sistema.</p>
       </div>
@@ -98,6 +98,15 @@ export default function Home() {
           </Link>
           <Link href="/admin/cross-docking" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
             Cross-docking →
+          </Link>
+          <Link href="/admin/acesso" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
+            Acesso →
+          </Link>
+          <Link href="/admin/configuracoes" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
+            Configuração →
+          </Link>
+          <Link href="/admin/atividades" className="type-body-small rounded-md border border-mist px-3 py-2 hover:bg-stone">
+            Atividades →
           </Link>
         </div>
       </div>

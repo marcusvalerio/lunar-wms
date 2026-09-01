@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useEstrutura } from "@/data/store";
 import { useProdutos } from "@/data/store";
 import { useEstoque } from "@/data/inventory-store";
+import { useConfiguracao } from "@/data/config-store";
 import { Button, TextField, SelectField } from "@/components/ui";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -15,6 +16,7 @@ export default function EstoquePage() {
   const { produtos } = useProdutos();
   const { enderecos } = useEstrutura();
   const { posicoes, reservar, saldoDaPosicao } = useEstoque();
+  const { configuracao } = useConfiguracao();
 
   const [resultadoReserva, setResultadoReserva] = useState<string | null>(null);
 
@@ -168,7 +170,7 @@ export default function EstoquePage() {
   }) {
     const [produtoId, setProdutoId] = useState(produtos[0]?.id ?? "");
     const [quantidade, setQuantidade] = useState(0);
-    const [estrategia, setEstrategia] = useState<EstrategiaAlocacao>("FEFO");
+    const [estrategia, setEstrategia] = useState<EstrategiaAlocacao>(configuracao.estrategiaAlocacaoPadrao);
 
     return (
       <form

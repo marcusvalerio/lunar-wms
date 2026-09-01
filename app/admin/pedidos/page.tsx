@@ -6,6 +6,7 @@ import { useEstrutura, useProdutos } from "@/data/store";
 import { useEstoque } from "@/data/inventory-store";
 import { usePedidos } from "@/data/order-store";
 import { useTarefas } from "@/data/task-store";
+import { useConfiguracao } from "@/data/config-store";
 import { Button, TextField, SelectField } from "@/components/ui";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -182,7 +183,8 @@ export default function PedidosPage() {
 }
 
 function AcaoReservar({ pedidoId, onProcessar }: { pedidoId: string; onProcessar: (id: string, estrategia: EstrategiaAlocacao) => void }) {
-  const [estrategia, setEstrategia] = useState<EstrategiaAlocacao>("FEFO");
+  const { configuracao } = useConfiguracao();
+  const [estrategia, setEstrategia] = useState<EstrategiaAlocacao>(configuracao.estrategiaAlocacaoPadrao);
   return (
     <div className="flex items-end gap-2">
       <SelectField label="Estratégia" value={estrategia} onChange={(e) => setEstrategia(e.target.value as EstrategiaAlocacao)}>
