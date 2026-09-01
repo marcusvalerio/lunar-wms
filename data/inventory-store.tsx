@@ -33,6 +33,8 @@ interface RepositorioEstoque {
   confirmarPicking(posicaoId: string, quantidade: number): void;
   /** Ajusta o físico da posição para o valor contado/recontado, registrando o motivo no ledger. */
   ajustarEstoque(posicaoId: string, novaQuantidade: number, motivo: string): void;
+  /** Move estoque de uma posição para um endereço destino (reabastecimento) — baixa a origem, cria posição no destino. */
+  transferirEstoque(posicaoOrigemId: string, enderecoDestinoId: string, quantidade: number): string | null;
 }
 
 const EstoqueContext = createContext<RepositorioEstoque | null>(null);
@@ -196,6 +198,43 @@ export function InventoryStoreProvider({ children }: { children: ReactNode }) {
     ]);
   }
 
+  function transferirEstoque(posicaoOrigemId: string, enderecoDestinoId: string, quantidade: number): string | null {
+    const agora = new Date().toISOString();
+    const origem = posicoes.find((p) => p.id === posicaoOrigemId);
+    if (!origem || origem.quantidade < quantidade) return null;
+
+    const novoId = gerarId("posicao");
+    setPosicoes((prev) => [
+      ...prev.map((p) => (p.id === posicaoOrigemId ? { ...p, quantidade: p.quantidade - quantidade } : p)),
+      {
+        id: novoId,
+        produtoId: origem.produtoId,
+        enderecoId: enderecoDestinoId,
+        lote: origem.lote,
+        validade: origem.validade,
+        status: "disponivel",
+        quantidade,
+        criadaEm: agora,
+      },
+    ]);
+
+    setMovimentos((prev) => [
+      ...prev,
+      {
+        id: gerarId("mov"),
+        tipo: "transferencia" as const,
+        produtoId: origem.produtoId,
+        enderecoOrigemId: origem.enderecoId,
+        enderecoDestinoId,
+        lote: origem.lote,
+        quantidade,
+        criadoEm: agora,
+      },
+    ]);
+
+    return novoId;
+  }
+
   const value: RepositorioEstoque = {
     posicoes,
     movimentos,
@@ -205,6 +244,7 @@ export function InventoryStoreProvider({ children }: { children: ReactNode }) {
     saldoDaPosicao,
     confirmarPicking,
     ajustarEstoque,
+    transferirEstoque,
   };
 
   return <EstoqueContext.Provider value={value}>{children}</EstoqueContext.Provider>;

@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
 import { OperationalPicking } from "@/components/OperationalPicking";
 import { SupervisionControlTower } from "@/components/SupervisionControlTower";
+import { TacticalPlanning } from "@/components/TacticalPlanning";
 import { experienciaModeloMental, experienciaLabel } from "@/experience/roles";
 
 export default function Home() {
@@ -29,10 +30,18 @@ export default function Home() {
     );
   }
 
+  if (experiencia === "tatico") {
+    return (
+      <LunarWorkspace>
+        <TacticalPlanning />
+      </LunarWorkspace>
+    );
+  }
+
   const conteudo = (
     <div className="flex max-w-3xl flex-col gap-8">
       <div>
-        <p className="type-label text-steel">Fase 11 — Supervisão</p>
+        <p className="type-label text-steel">Fase 12 — Tático</p>
         <h1 className="type-display mt-2 text-navy">LUNAR</h1>
         <p className="type-body mt-3 text-steel">
           Fundação do produto: tokens de design, tipografia, arquitetura de
@@ -91,7 +100,7 @@ export default function Home() {
       ) : (
         <EmptyState
           titulo="Nenhum módulo disponível para esta experiência ainda"
-          descricao="Gestão e Tático serão construídos nas próximas fases."
+          descricao="Gestão será construída na próxima fase."
         />
       )}
     </div>
