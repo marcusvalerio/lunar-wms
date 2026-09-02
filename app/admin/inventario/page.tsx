@@ -59,8 +59,8 @@ export default function InventarioPage() {
             descricao="Registre entradas de estoque (Admin › Estoque) ou aguarde a conclusão das contagens em andamento."
           />
         ) : (
-          <div className="overflow-hidden rounded-lg border border-mist">
-            <table className="w-full">
+          <div className="overflow-x-auto rounded-lg border border-mist">
+            <table className="w-full min-w-[560px]">
               <thead className="bg-stone">
                 <tr>
                   <Th>Produto</Th>

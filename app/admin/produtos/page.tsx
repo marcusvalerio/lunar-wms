@@ -80,8 +80,8 @@ export default function ProdutosPage() {
       {produtos.length === 0 ? (
         <EmptyState titulo="Nenhum produto cadastrado" descricao="Cadastre o primeiro SKU para começar a montar o catálogo." />
       ) : (
-        <div className="overflow-hidden rounded-lg border border-mist">
-          <table className="w-full">
+        <div className="overflow-x-auto rounded-lg border border-mist">
+          <table className="w-full min-w-[520px]">
             <thead className="bg-stone">
               <tr>
                 <Th>SKU</Th>

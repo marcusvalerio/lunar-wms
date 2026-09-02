@@ -12,7 +12,7 @@ export function ExperienceSwitcher() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="type-metadata text-steel">Experiência atual (dev)</span>
+      <span className="type-metadata hidden text-steel sm:inline">Experiência atual (dev)</span>
       <select
         aria-label="Selecionar experiência"
         value={experiencia}

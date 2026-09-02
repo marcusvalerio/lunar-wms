@@ -147,7 +147,8 @@ export default function PedidosPage() {
                       )}
                     </div>
 
-                    <table className="mt-3 w-full">
+                    <div className="mt-3 overflow-x-auto">
+                      <table className="w-full min-w-[640px]">
                       <thead>
                         <tr className="type-label text-steel">
                           <Th>Produto</Th>
@@ -171,6 +172,7 @@ export default function PedidosPage() {
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   </div>
                 ))}
               </div>
