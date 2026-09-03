@@ -7,7 +7,7 @@ import { useEstoque } from "@/data/inventory-store";
 import { usePedidos } from "@/data/order-store";
 import { useTarefas } from "@/data/task-store";
 import { useConfiguracao } from "@/data/config-store";
-import { Button, TextField, SelectField } from "@/components/ui";
+import { Button, TextField, SelectField, Th, Td } from "@/components/ui";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
 import type { PrioridadePedido, EstrategiaAlocacao, ItemPedido } from "@/domain/pedido";
@@ -149,8 +149,8 @@ export default function PedidosPage() {
 
                     <div className="mt-3 overflow-x-auto">
                       <table className="w-full min-w-[640px]">
-                      <thead>
-                        <tr className="type-label text-steel">
+                      <thead className="bg-stone">
+                        <tr className="type-body-small">
                           <Th>Produto</Th>
                           <Th>Solicitado</Th>
                           <Th>Reservado</Th>
@@ -284,12 +284,4 @@ function FormularioPedido({
       </div>
     </form>
   );
-}
-
-function Th({ children }: { children: React.ReactNode }) {
-  return <th className="px-3 py-2 text-left">{children}</th>;
-}
-
-function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <td className={`px-3 py-2 ${className}`}>{children}</td>;
 }

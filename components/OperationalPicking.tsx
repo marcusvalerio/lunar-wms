@@ -58,7 +58,7 @@ export function OperationalPicking() {
   return (
     <div className="flex max-w-sm flex-col gap-6">
       {ultimaConfirmacao && (
-        <p className="type-body-small rounded-md bg-green/10 px-3 py-2 text-green">✓ Tarefa concluída — {ultimaConfirmacao}</p>
+        <p className="type-body-small animate-fade-in rounded-md bg-green/10 px-3 py-2 text-green">✓ Tarefa concluída — {ultimaConfirmacao}</p>
       )}
 
       <div>

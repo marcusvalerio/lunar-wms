@@ -125,7 +125,7 @@ export default function TarefasPage() {
                 )}
 
                 {tarefa.excecao && (
-                  <p className="type-body-small mt-2 rounded-md bg-stone px-3 py-2 text-ink">
+                  <p className="type-body-small animate-fade-in mt-2 rounded-md bg-red/10 px-3 py-2 text-red">
                     {rotuloTipoExcecao[tarefa.excecao.tipo]}: {tarefa.excecao.descricao}
                   </p>
                 )}

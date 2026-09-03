@@ -26,7 +26,7 @@ export function LunarWorkspace({ children }: { children: ReactNode }) {
         <p className="type-body-small text-steel">{experienciaPergunta[experiencia]}</p>
       </div>
 
-      <main className="flex-1 px-4 py-6 sm:px-6 sm:py-8">{children}</main>
+      <main className="flex-1 px-4 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] sm:px-6 sm:py-8">{children}</main>
     </div>
   );
 }

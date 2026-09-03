@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useProdutos } from "@/data/store";
-import { Button, TextField, SelectField } from "@/components/ui";
+import { Button, TextField, SelectField, Th, Td } from "@/components/ui";
 import { EmptyState } from "@/components/EmptyState";
 import type { UnidadeMedida } from "@/domain/produto";
 
@@ -118,12 +118,4 @@ function Checkbox({ rotulo, checked, onChange }: { rotulo: string; checked: bool
       {rotulo}
     </label>
   );
-}
-
-function Th({ children }: { children: React.ReactNode }) {
-  return <th className="type-label px-4 py-3 text-left text-steel">{children}</th>;
-}
-
-function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <td className={`px-4 py-3 ${className}`}>{children}</td>;
 }

@@ -5,7 +5,7 @@ import { useEstrutura } from "@/data/store";
 import { useProdutos } from "@/data/store";
 import { useEstoque } from "@/data/inventory-store";
 import { useConfiguracao } from "@/data/config-store";
-import { Button, TextField, SelectField } from "@/components/ui";
+import { Button, TextField, SelectField, Th, Td } from "@/components/ui";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
 import type { EstrategiaAlocacao } from "@/domain/pedido";
@@ -94,7 +94,7 @@ export default function EstoquePage() {
               Solicita uma quantidade para um produto e mostra, de forma determinística, quais posições atendem a demanda.
             </p>
             <FormularioReserva onReservar={reservar} onResultado={setResultadoReserva} />
-            {resultadoReserva && <p className="type-body-small mt-1 rounded-md bg-stone px-3 py-2">{resultadoReserva}</p>}
+            {resultadoReserva && <p className="type-body-small animate-fade-in mt-1 rounded-md bg-stone px-3 py-2">{resultadoReserva}</p>}
           </section>
         </>
       )}
@@ -214,12 +214,4 @@ export default function EstoquePage() {
       </form>
     );
   }
-}
-
-function Th({ children }: { children: React.ReactNode }) {
-  return <th className="type-label px-4 py-3 text-left text-steel">{children}</th>;
-}
-
-function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <td className={`px-4 py-3 ${className}`}>{children}</td>;
 }

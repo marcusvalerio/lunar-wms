@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useEstrutura, useProdutos } from "@/data/store";
 import { useEstoque } from "@/data/inventory-store";
 import { useContagem } from "@/data/counting-store";
-import { Button, TextField } from "@/components/ui";
+import { Button, TextField, Th, Td } from "@/components/ui";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusBadge } from "@/components/StatusBadge";
 import { rotuloStatusContagem, statusContagemParaBadge } from "@/domain/contagem-labels";
@@ -166,12 +166,4 @@ function FormularioQuantidade({ rotulo, onConfirmar }: { rotulo: string; onConfi
       </Button>
     </form>
   );
-}
-
-function Th({ children }: { children?: React.ReactNode }) {
-  return <th className="type-label px-4 py-3 text-left text-steel">{children}</th>;
-}
-
-function Td({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <td className={`px-4 py-3 ${className}`}>{children}</td>;
 }
