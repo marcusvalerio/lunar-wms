@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ExperienceSwitcher } from "./ExperienceSwitcher";
@@ -106,21 +106,26 @@ export function AdminShell({ children }: { children: ReactNode }) {
     if (menuAberto) setMenuAberto(false);
   }
 
+  // Mesmo caminho de fechamento em todos os gatilhos (X, backdrop, Escape,
+  // navegação): fecha o drawer e devolve o foco para quem o abriu.
+  // useCallback com deps vazias porque setState e refs são estáveis entre
+  // renders — assim a função mantém identidade e pode entrar na dependência
+  // do efeito abaixo sem recriar o listener a cada render.
+  const fecharMenu = useCallback(() => {
+    setMenuAberto(false);
+    botaoAbrirRef.current?.focus();
+  }, []);
+
   useEffect(() => {
     if (!menuAberto) return;
     primeiroLinkRef.current?.focus();
 
     function aoTeclar(e: KeyboardEvent) {
-      if (e.key === "Escape") setMenuAberto(false);
+      if (e.key === "Escape") fecharMenu();
     }
     document.addEventListener("keydown", aoTeclar);
     return () => document.removeEventListener("keydown", aoTeclar);
-  }, [menuAberto]);
-
-  function fecharMenu() {
-    setMenuAberto(false);
-    botaoAbrirRef.current?.focus();
-  }
+  }, [menuAberto, fecharMenu]);
 
   return (
     <div className="flex min-h-screen">
